@@ -1,4 +1,4 @@
-# ImageComparison
+# [ImageComparison](http://kirans08.github.io/ImageComparison/)
 
 A JavaFX program to compare two images and determine their similarity
 
