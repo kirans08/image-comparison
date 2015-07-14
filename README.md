@@ -1,6 +1,6 @@
 # ImageComparison
 
-A program to compare two images and determine their similarity
+A JavaFX program to compare two images and determine their similarity
 
 ## Dependencies
 
