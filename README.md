@@ -10,4 +10,4 @@ A program to compare two images and determine their similarity
 
 * Go to dist directory
 
-* Launch the program by double clicking the ImageDiff.jar  
+* Launch the program by double clicking the ImageDiff.jar file  
