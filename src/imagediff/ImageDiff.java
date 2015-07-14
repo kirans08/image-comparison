@@ -44,9 +44,13 @@ public class ImageDiff extends Application {
 
     // The base size of the images.
     private static final int baseSize = 300;
+    String url1, url2;
 
     @Override
     public void start(Stage primaryStage) {
+
+        url1 = "";
+        url2 = "";
 
         final Group root = new Group();
         primaryStage.setResizable(false);
@@ -74,7 +78,7 @@ public class ImageDiff extends Application {
         image2Label.setStyle("-fx-background-color:#1278a3");
 
         TextField imageSource1 = new TextField();
-        imageSource1.setPromptText("Click To Paste From Clipboard");
+        imageSource1.setPromptText("Enter URL 1");
         imageSource1.setFont(Font.font("Comic Sans MS"));
         imageSource1.setLayoutX(320);
         imageSource1.setLayoutY(46);
@@ -83,7 +87,7 @@ public class ImageDiff extends Application {
         imageSource1.setPrefColumnCount(20);
 
         TextField imageSource2 = new TextField();
-        imageSource2.setPromptText("Click To Paste From Clipboard");
+        imageSource2.setPromptText("Enter URL 2");
         imageSource2.setFont(Font.font("Comic Sans MS"));
         imageSource2.setLayoutX(320);
         imageSource2.setLayoutY(116);
@@ -131,46 +135,22 @@ public class ImageDiff extends Application {
         progressRect.setLayoutY(580);
         progressRect.setFill(Color.TRANSPARENT);
 
-        //Automatic paste from clipboard on mouseclick
-        imageSource1.setOnMouseClicked((MouseEvent event) -> {
-            if ((imageSource1.getText()).equals("")) {
-                imageSource1.paste();
-                try {
-                    Image image1 = new Image(imageSource1.getText().replaceAll(" ", "%20"));
-                    image1View.setImage(image1);
-                } catch (Exception e) {
-                    System.out.println("Invalid URL");
-                }
-            }
-        });
-
-        //Automatic paste from clipboard on mouseclick
-        imageSource2.setOnMouseClicked((MouseEvent event) -> {
-            if ((imageSource2.getText()).equals("")) {
-                imageSource2.paste();
-                try {
-                    Image image2 = new Image(imageSource2.getText().replaceAll(" ", "%20"));
-                    image2View.setImage(image2);
-                } catch (Exception e) {
-                    System.out.println("Invalid URL");
-                }
-            }
-
-        });
-
         imageSource1.setOnAction((ActionEvent event) -> {
             try {
-                Image image1 = new Image(imageSource1.getText().replaceAll(" ", "%20"));
+                url1 = imageSource1.getText().replaceAll(" ", "%20");
+                Image image1 = new Image(url1);
                 image1View.setImage(image1);
             } catch (Exception e) {
                 System.out.println("Invalid URL");
 
             }
+            imageSource2.requestFocus();
         });
 
         imageSource2.setOnAction((ActionEvent event) -> {
             try {
-                Image image2 = new Image(imageSource2.getText().replaceAll(" ", "%20"));
+                url2 = imageSource2.getText().replaceAll(" ", "%20");
+                Image image2 = new Image(url2);
                 image2View.setImage(image2);
             } catch (Exception e) {
                 System.out.println("Invalid URL");
@@ -179,11 +159,25 @@ public class ImageDiff extends Application {
 
         compareButton.setOnAction((ActionEvent event) -> {
             try {
-                Image image1 = new Image(imageSource1.getText().replaceAll(" ", "%20"));
-                image1View.setImage(image1);
+                String turl1, turl2;
+                turl1 = imageSource1.getText().replaceAll(" ", "%20");
+                turl2 = imageSource2.getText().replaceAll(" ", "%20");
 
-                Image image2 = new Image(imageSource2.getText().replaceAll(" ", "%20"));
-                image2View.setImage(image2);
+                if (!url1.equals(turl1)) {
+                    url1 = turl1;
+                    Image image1 = new Image(turl1);
+                    image1View.setImage(image1);
+                }
+                if (!url2.equals(turl2)) {
+                    url2 = turl2;
+                    Image image2 = new Image(turl2);
+                    image2View.setImage(image2);
+                }
+                if (turl1.equals("") || turl2.equals("")) {
+                    result.setText("ENTER BOTH URLS");
+                    result.setTextFill(Color.CADETBLUE);
+                }
+
             } catch (Exception e) {
                 System.out.println("Invalid URL");
             }
@@ -210,6 +204,8 @@ public class ImageDiff extends Application {
 
         double distance = 0;
         URL url1 = null, url2 = null;
+        java.awt.image.RenderedImage imageReference1 = null;
+        java.awt.image.RenderedImage imageReference2 = null;
 
         img1 = img1.replaceAll(" ", "%20");
         img2 = img2.replaceAll(" ", "%20");
@@ -217,15 +213,13 @@ public class ImageDiff extends Application {
         try {
             url1 = new URL(img1);
             url2 = new URL(img2);
+            
+            imageReference1 = rescale(ImageIO.read(url1));
+            imageReference2 = rescale(ImageIO.read(url2));
         } catch (Exception e) {
             System.out.println("Invalid URL");
 
         }
-
-        java.awt.image.RenderedImage imageReference1;
-        imageReference1 = rescale(ImageIO.read(url1));
-        java.awt.image.RenderedImage imageReference2;
-        imageReference2 = rescale(ImageIO.read(url2));
 
         // Calculate the signature vector for the reference.
         signature1 = calcSignature(imageReference1);

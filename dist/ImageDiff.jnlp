@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="ImageDiff.jar" size="6725" download="eager" />
+    <jar href="ImageDiff.jar" size="6809" download="eager" />
     <jar href="lib/jai-core-1.1.3-alpha.jar" size="1284591" download="eager" />
     <jar href="lib/jai_codec-1.1.3-alpha.jar" size="177537" download="eager" />
   </resources>
