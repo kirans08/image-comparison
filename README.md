@@ -2,6 +2,11 @@
 
 A JavaFX program to compare two images and determine their similarity
 
+## Instructions
+
+* Load images by entering the URL's
+* Find result by clicking the compare button
+
 ## Dependencies
 
 * JRE(>=1.8)
