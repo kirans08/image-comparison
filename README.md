@@ -1,10 +1,10 @@
-# [ImageComparison](http://kirans08.github.io/ImageComparison/)
+# [ImageComparison](http://kirans08.github.io/image-comparison/)
 
 A JavaFX program to compare two images and determine their similarity
 
 ## Instructions
 
-* Load images by entering the URL's
+* Provide 2 valid Image URL's
 * Find result by clicking the compare button
 
 ## Dependencies
@@ -18,6 +18,4 @@ A JavaFX program to compare two images and determine their similarity
 
 ## Execution Instructions
 
-* Go to dist directory
-
-* Launch the program by double clicking the ImageDiff.jar file  
+* Run the file `dist/ImageDiff.jar`   
